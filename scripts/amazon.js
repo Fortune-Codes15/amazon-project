@@ -1,4 +1,4 @@
-const productsGrid = document.querySelector( '.products-grid' )
+const productsGrid = document.querySelector( '.products-grid' );
 let productsHtml = ''
 
 products.forEach( ( product ) => {
@@ -72,8 +72,15 @@ const addToCart = document.querySelectorAll( '.js-add-to-cart' ).forEach( ( butt
       cart.push( {
         productId: productId,
         quantity: 1,
-      } )
+      } );
     }
-    console.log( cart )
+    let totalQuantity = 0;
+
+    cart.forEach( ( item ) => {
+      totalQuantity += item.quantity;
+    } );
+
+    const quantityDisplay = document.querySelector( '.js-cart-quantity' );
+    quantityDisplay.innerHTML = totalQuantity;
   } )
 } )
