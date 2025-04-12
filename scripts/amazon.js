@@ -1,5 +1,5 @@
 const products = [ {
-  image: 'images / products / athletic - cotton - socks - 6 - pairs.jpg',
+  image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
   name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
   ratings: {
     stars: 4.5,
@@ -23,9 +23,11 @@ const products = [ {
   },
   priceCents: 799,
 } ];
+const productsGrid = document.querySelector( '.products-grid' )
+let productHtml = ''
 
 products.forEach( ( product ) => {
-  const html =
+  productHtml +=
     `
         <div class="product-container">
         <div class="product-image-container">
@@ -44,7 +46,7 @@ products.forEach( ( product ) => {
         </div>
 
         <div class="product-price">
-          ${product.priceCents / 100}
+          $${product.priceCents / 100}
         </div>
 
         <div class="product-quantity-container">
@@ -76,3 +78,4 @@ products.forEach( ( product ) => {
   `
 } );
 
+productsGrid.innerHTML = productHtml
