@@ -1,5 +1,7 @@
 const productsGrid = document.querySelector( '.products-grid' );
-let productsHtml = ''
+let productsHtml = '';
+let totalQuantity = 0;
+
 
 products.forEach( ( product ) => {
   productsHtml +=
@@ -25,7 +27,7 @@ products.forEach( ( product ) => {
         </div>
 
         <div class="product-quantity-container">
-          <select>
+          <select class="js-selector-${product.id}">
             <option selected value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -74,11 +76,9 @@ const addToCart = document.querySelectorAll( '.js-add-to-cart' ).forEach( ( butt
         quantity: 1,
       } );
     }
-    let totalQuantity = 0;
-
-    cart.forEach( ( item ) => {
-      totalQuantity += item.quantity;
-    } );
+    const quantitySelector = document.querySelector( `.js-selector-${productId}` );
+    cart.forEach( item => totalQuantity += Number( quantitySelector.value )
+    );
 
     const quantityDisplay = document.querySelector( '.js-cart-quantity' );
     quantityDisplay.innerHTML = totalQuantity;
