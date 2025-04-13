@@ -59,44 +59,56 @@ products.forEach( ( product ) => {
 const productsGrid = document.querySelector( '.products-grid' );
 productsGrid.innerHTML = productsHtml;
 
-let totalQuantity = 0;
 let timeoutId;
+
+function addtoCart( productId ) {
+  let matchingItem;
+
+  cart.forEach( ( item ) => {
+    if ( productId === item.productId ) {
+      matchingItem = item;
+    }
+  } )
+
+  if ( matchingItem ) {
+    matchingItem.quantity += 1;
+  } else {
+    cart.push( {
+      productId: productId,
+      quantity: 1,
+    } );
+  }
+
+}
+
+function updateCartQuantity( productId ) {
+  let totalQuantity = 0;
+  const quantitySelector = document.querySelector( `.js-selector-${productId}` );
+  const quantityDisplay = document.querySelector( '.js-cart-quantity' );
+
+  cart.forEach( item => totalQuantity += Number( quantitySelector.value )
+  );
+  quantityDisplay.innerHTML = totalQuantity;
+};
+
+function displayMessage( productId ) {
+  const addedToCart = document.querySelector( `.js-added-to-cart-${productId}` );
+  addedToCart.classList.add( 'visible' );
+
+  if ( timeoutId ) {
+    clearTimeout( timeoutId )
+  }
+  timeoutId = setTimeout( () => {
+    addedToCart.classList.remove( 'visible' );
+  }, 2000 )
+
+}
 
 const addToCart = document.querySelectorAll( '.js-add-to-cart' ).forEach( ( button ) => {
   button.addEventListener( 'click', () => {
     const productId = button.dataset.productId;
-    let matchingItem;
-
-    cart.forEach( ( item ) => {
-      if ( productId === item.productId ) {
-        matchingItem = item;
-      }
-    } )
-
-    if ( matchingItem ) {
-      matchingItem.quantity += 1;
-    } else {
-      cart.push( {
-        productId: productId,
-        quantity: 1,
-      } );
-    }
-    const quantitySelector = document.querySelector( `.js-selector-${productId}` );
-    cart.forEach( item => totalQuantity += Number( quantitySelector.value )
-    );
-
-    const quantityDisplay = document.querySelector( '.js-cart-quantity' );
-    quantityDisplay.innerHTML = totalQuantity;
-
-    const addedToCart = document.querySelector( `.js-added-to-cart-${productId}` );
-    addedToCart.classList.add( 'visible' );
-    console.log( addedToCart );
-
-    if ( timeoutId ) {
-      clearTimeout( timeoutId )
-    }
-    timeoutId = setTimeout( () => {
-      addedToCart.classList.remove( 'visible' );
-    }, 2000 )
-  } )
-} )
+    addtoCart( productId );
+    updateCartQuantity( productId )
+    displayMessage( productId )
+  } );
+} );
